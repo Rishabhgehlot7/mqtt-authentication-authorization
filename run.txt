@@ -1,0 +1,8 @@
+# Publisher
+
+node publisher.js rishabh rishabh "sensors/rishabh/status" '{"Hello":"World"}'
+
+
+#Subscriber
+
+node subscriber.js rishabh rishabh "sensors/+/status"
