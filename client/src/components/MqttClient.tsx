@@ -12,16 +12,16 @@ const MqttClient: React.FC = () => {
   const [client, setClient] = useState<mqtt.MqttClient | null>(null);
   const [connected, setConnected] = useState(false);
   const [connecting, setConnecting] = useState(false);
-  
+
   // Auth states
   const [username, setUsername] = useState("rishabh");
   const [password, setPassword] = useState("rishabh");
   const [authError, setAuthError] = useState<string | null>(null);
-  
+
   // Message states
   const [message, setMessage] = useState("");
   const [receivedMessages, setReceivedMessages] = useState<MqttMessage[]>([]);
-  
+
   // Topic states
   const [publishTopic, setPublishTopic] = useState("device/data");
   const [subscribeTopic, setSubscribeTopic] = useState("device/response");
@@ -42,8 +42,10 @@ const MqttClient: React.FC = () => {
     setConnected(false);
 
     try {
-      const clientId = `react-client-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
-      
+      const clientId = `react-client-${Date.now()}-${Math.random()
+        .toString(16)
+        .slice(2, 8)}`;
+
       const mqttClient = mqtt.connect(BROKER_URL, {
         username,
         password,
@@ -55,11 +57,15 @@ const MqttClient: React.FC = () => {
 
       // Connection events
       mqttClient.on("connect", (packet) => {
-        console.log(`[client] Connected to broker (session: ${packet.sessionPresent ? 'existing' : 'new'})`);
+        console.log(
+          `[client] Connected to broker (session: ${
+            packet.sessionPresent ? "existing" : "new"
+          })`
+        );
         setConnected(true);
         setConnecting(false);
         setAuthError(null);
-        
+
         // Subscribe to configured topic
         if (subscribeTopic) {
           subscribeToTopic(subscribeTopic);
@@ -71,13 +77,13 @@ const MqttClient: React.FC = () => {
         setConnecting(true);
       });
 
-      mqttClient.on("message", (topic, payload, packet) => {
+      mqttClient.on("message", (topic, payload) => {
         const messageData: MqttMessage = {
           topic,
           payload: payload.toString(),
           timestamp: new Date(),
         };
-        
+
         console.log(`[client] Message on ${topic}:`, payload.toString());
         setReceivedMessages((prev) => [messageData, ...prev].slice(0, 50)); // Keep last 50 messages
       });
@@ -103,7 +109,6 @@ const MqttClient: React.FC = () => {
 
       // Store client reference
       setClient(mqttClient);
-
     } catch (error) {
       console.error("[client] Failed to create connection:", error);
       setAuthError("Failed to connect to broker");
@@ -144,7 +149,7 @@ const MqttClient: React.FC = () => {
         console.error(`[client] Unsubscribe error for ${topic}:`, err);
       } else {
         console.log(`[client] Unsubscribed from ${topic}`);
-        setSubscribedTopics((prev) => prev.filter(t => t !== topic));
+        setSubscribedTopics((prev) => prev.filter((t) => t !== topic));
       }
     });
   };
@@ -194,7 +199,7 @@ const MqttClient: React.FC = () => {
   return (
     <div className="p-6 max-w-2xl mx-auto bg-gray-50 rounded-lg">
       <h2 className="text-2xl font-bold mb-6 text-center">MQTT Client Panel</h2>
-      
+
       {/* Connection Status */}
       <div className="mb-6 p-4 bg-white rounded-lg shadow">
         <div className="flex items-center justify-between mb-3">
@@ -268,7 +273,9 @@ const MqttClient: React.FC = () => {
           <h3 className="font-semibold mb-3">Publish Message</h3>
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium mb-1">Publish Topic</label>
+              <label className="block text-sm font-medium mb-1">
+                Publish Topic
+              </label>
               <input
                 type="text"
                 value={publishTopic}
@@ -285,7 +292,7 @@ const MqttClient: React.FC = () => {
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Type your message..."
                 className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                onKeyPress={(e) => e.key === "Enter" && sendMessage()}
               />
             </div>
             <div className="flex space-x-2">
@@ -314,7 +321,9 @@ const MqttClient: React.FC = () => {
           <h3 className="font-semibold mb-3">Subscriptions</h3>
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium mb-1">Subscribe Topic</label>
+              <label className="block text-sm font-medium mb-1">
+                Subscribe Topic
+              </label>
               <div className="flex space-x-2">
                 <input
                   type="text"
@@ -325,18 +334,22 @@ const MqttClient: React.FC = () => {
                 />
                 <button
                   onClick={() => subscribeToTopic(subscribeTopic)}
-                  disabled={!subscribeTopic || subscribedTopics.includes(subscribeTopic)}
+                  disabled={
+                    !subscribeTopic || subscribedTopics.includes(subscribeTopic)
+                  }
                   className="px-4 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   Subscribe
                 </button>
               </div>
             </div>
-            
+
             {/* Active Subscriptions */}
             {subscribedTopics.length > 0 && (
               <div>
-                <label className="block text-sm font-medium mb-1">Active Subscriptions</label>
+                <label className="block text-sm font-medium mb-1">
+                  Active Subscriptions
+                </label>
                 <div className="flex flex-wrap gap-2">
                   {subscribedTopics.map((topic) => (
                     <span
@@ -361,15 +374,24 @@ const MqttClient: React.FC = () => {
 
       {/* Messages Section */}
       <div className="p-4 bg-white rounded-lg shadow">
-        <h3 className="font-semibold mb-3">Received Messages ({receivedMessages.length})</h3>
+        <h3 className="font-semibold mb-3">
+          Received Messages ({receivedMessages.length})
+        </h3>
         {receivedMessages.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">No messages received yet...</p>
+          <p className="text-gray-500 text-center py-4">
+            No messages received yet...
+          </p>
         ) : (
           <div className="max-h-96 overflow-y-auto space-y-2">
             {receivedMessages.map((msg, index) => (
-              <div key={index} className="p-3 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+              <div
+                key={index}
+                className="p-3 bg-gray-50 rounded-lg border-l-4 border-blue-500"
+              >
                 <div className="flex justify-between items-start mb-1">
-                  <span className="font-mono text-sm text-blue-600">/{msg.topic}</span>
+                  <span className="font-mono text-sm text-blue-600">
+                    /{msg.topic}
+                  </span>
                   <span className="text-xs text-gray-500">
                     {msg.timestamp.toLocaleTimeString()}
                   </span>
