@@ -12,7 +12,7 @@ RUN npm run build
 FROM node:20-alpine
 
 WORKDIR /app
-RUN npm install -g serve
+RUN npm install
 
 COPY --from=build /app/dist ./dist
 
