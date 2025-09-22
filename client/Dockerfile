@@ -19,4 +19,4 @@ COPY --from=build /app/dist ./dist
 # Expose the port changed to 4173
 EXPOSE 4173
 
-CMD ["serve", "-s", "dist", "-l", "4173"]
+CMD ["npm", "run", "preview"]
