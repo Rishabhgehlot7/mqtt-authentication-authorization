@@ -1,0 +1,22 @@
+services:
+  broker:
+    build:
+      context: ./broker
+    container_name: mqtt-fcm-broker
+    ports:
+      - "1883:1883"   # MQTT
+      - "8888:8888"   # Admin/UI
+      - "8051:8051"   # Broker internal port
+    env_file:
+      - ./broker/.env
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ./client
+    container_name: vite-client
+    ports:
+      - "4173:4173"   # Host port 5173 mapped to container port 4173
+    env_file:
+      - ./client/.env
+    restart: unless-stopped

@@ -11,7 +11,7 @@ const useFCM = () => {
             if (currentToken) {
               console.log("FCM Token:", currentToken);
               // Send token to backend
-              fetch("http://localhost:3000/token", {
+              fetch("http://localhost:8051/token", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ token: currentToken }),
