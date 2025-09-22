@@ -6,6 +6,7 @@ import MqttMessages from "../components/MqttMessages";
 import MqttPublish from "../components/MqttPublish";
 import MqttSubscribe from "../components/MqttSubscribe";
 import Button from "../components/ui/Button";
+import useFCM from "../hooks/useFCM";
 import type { MqttMessage } from "../types/mqtt";
 
 const MqttDashboard: React.FC = () => {
@@ -15,7 +16,7 @@ const MqttDashboard: React.FC = () => {
   const [authError, setAuthError] = useState<string | null>(null);
   const [subscribedTopics, setSubscribedTopics] = useState<string[]>([]);
   const [messages, setMessages] = useState<MqttMessage[]>([]);
-
+  useFCM();
   const BROKER_URL = "ws://localhost:8888";
 
   const connectToBroker = (username: string, password: string) => {

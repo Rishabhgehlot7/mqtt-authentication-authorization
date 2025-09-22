@@ -1,6 +1,7 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import BottomSheetInstall from "./components/BottomSheetInstall";
 import "./index.css";
 import MqttDashboard from "./pages/MqttDashboard";
 const App: React.FC = () => {
@@ -13,6 +14,7 @@ const App: React.FC = () => {
         </Routes>
       </div>
       <Toaster position="top-right" reverseOrder={false} />
+      <BottomSheetInstall />
     </Router>
   );
 };
