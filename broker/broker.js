@@ -186,4 +186,4 @@ api.post('/test-notification', async (req, res) => {
     }
 });
 
-api.listen(3000, () => console.log('[API] Token API running on port 3000'));
+api.listen(8051, () => console.log('[API] Token API running on port 8051'));
