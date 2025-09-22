@@ -11,7 +11,7 @@ const useFCM = () => {
             if (currentToken) {
               console.log("FCM Token:", currentToken);
               // Send token to backend
-              fetch("http://localhost:8051/token", {
+              fetch("https://mqtt.boostengine.in/token", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ token: currentToken }),

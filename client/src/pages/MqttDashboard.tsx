@@ -17,7 +17,7 @@ const MqttDashboard: React.FC = () => {
   const [subscribedTopics, setSubscribedTopics] = useState<string[]>([]);
   const [messages, setMessages] = useState<MqttMessage[]>([]);
   useFCM();
-  const BROKER_URL = "ws://localhost:8888";
+  const BROKER_URL = "wss://mqtt.boostengine.in/mqtt";
 
   const connectToBroker = (username: string, password: string) => {
     setConnecting(true);
